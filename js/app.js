@@ -9,10 +9,12 @@ var taskInputId = document.getElementById('task-input')
 //Enfocando placeholder y dandole nombre a la funcion afterFocus
 nameListInput.addEventListener('focus', afterFocus);
 //agregando evento click al boton de Añadir a la funcion saveNameList
-saveButton.addEventListener('click', saveNameList);
+saveButton.addEventListener('mousedown', saveNameList);
 //Evento al boton X que hara la funcion prevention
 xButton.addEventListener('click', prevention)
-    //nameListInput.addEventListener('blur', noFocus)
+nameListInput.addEventListener('blur', noFocus)
+
+
 
 //funcion para convertir los ID taskBox en clase y remplazando saveButton - xButton por otro nombre de clases
 function afterFocus(e) {
@@ -20,7 +22,15 @@ function afterFocus(e) {
     taskBox.classList.add('box-list-focus')
     saveButton.classList.replace('none', 'inline-block');
     xButton.classList.replace('nonex', 'close'); //cambie la clase inline-block a close
+    xButton.classList.remove('none')
 }
+
+xButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    this.classList.add('none');
+    saveButton.classList.add('none');
+})
+
 //
 function saveNameList(e) {
     e.preventDefault();
@@ -73,8 +83,19 @@ function saveNameList(e) {
     //agregando el button la clase close
     xxButton.classList.add('close'); //cambie la clase none a close
     xxButton.classList.add('none')
+    taskInput.addEventListener('blur', noFocusTask)
 
-    addButton.addEventListener('click', function(e) {
+    function noFocusTask(e) {
+        e.preventDefault()
+        addButton.classList.add('none')
+        xxButton.classList.add('none')
+    }
+    xxButton.addEventListener('click', function(e) {
+        e.preventDefault()
+        this.classList.add('none')
+        addButton.classList.add('none')
+    })
+    addButton.addEventListener('mousedown', function(e) {
         e.preventDefault()
         var nameContainer = document.createElement('div');
         var nameTask = document.createElement('p')
@@ -107,12 +128,12 @@ function saveNameList(e) {
 }
 
 
-/*function noFocus(e) {
+function noFocus(e) {
     e.preventDefault();
-    taskBox.classList.remove('box-list-focus');
-    saveButton.classList.replace('block', 'none');
-    xButton.classList.replace('inline-block', 'none');
-}*/
+    saveButton.classList.add('none')
+    xButton.classList.add('none')
+}
+
 
 function prevention(e) {
     e.preventDefault();
